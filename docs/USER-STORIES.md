@@ -94,6 +94,7 @@ Everything the app does today, written as what the singer wants and why, without
 - As a singer, I want to see which version I have, so that I can tell whether an update arrived. (R73)
 - As a singer who heard of the app, I want to find it and its guide with a web search, and see a sensible title and description when a link is shared, so that I can get to it without being sent the address. (R80)
 - As a singer, I want a short explanation inside the app of what it is for and how a night out works, with a fuller guide a tap away, so that I can get going, or pick it up again after a while, without guessing. (R76)
+- As a singer opening the app for the first time, I want a welcome that says what it is for, how the pieces fit and what to do first, before I am left on an empty screen, so that I know where to start and never see it again once I have. (R81)
 - As a singer, I want the steps for putting the app on my Home Screen, for an iPhone and for Android, in the app's Help and a tap away from the banner that asks me to, so that I install it before my songs are at risk. (R76, R65)
 
 ## Look and feel

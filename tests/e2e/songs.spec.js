@@ -123,7 +123,7 @@ test.describe('Songs', () => {
 
     // The Tonight field takes the same rule.
     await openScope(page, 'Tonight');
-    const tonightField = page.getByRole('searchbox', { name: 'Add a song to tonight\'s set' });
+    const tonightField = page.getByRole('searchbox', { name: 'Search your songs for tonight' });
     await tonightField.fill('i');
     await expect(page.getByText('Add to tonight · 2 matches')).toBeVisible();
     await tonightField.fill('i ');

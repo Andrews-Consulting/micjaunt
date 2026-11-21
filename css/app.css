@@ -1357,6 +1357,9 @@ body[data-screen="kj"] main { padding: 0; max-width: none; }
 /* The fresh-install card on an empty Songs list (R65) is a card, not a row. */
 .list li.starting-fresh { margin-top: 16px; padding: 12px 16px; border-bottom: 0; }
 .list li.starting-fresh p { margin: 0; }
+/* Two cases (R65), each a line and its button; the second gets a rule above it. */
+.starting-fresh .fresh-case + .fresh-case { padding-top: 12px; border-top: 1px solid var(--border); }
+.starting-fresh .fresh-case .btn { margin-top: 8px; }
 @media print { .starting-fresh { display: none !important; } }
 
 /* ---- KaraFun catalog in Songs (R67, R68) ---- */
@@ -1391,6 +1394,15 @@ body[data-screen="kj"] main { padding: 0; max-width: none; }
 .help-view .help-card li + li { margin-top: 8px; }
 .help-view .help-card a.btn { font-weight: 600; }
 @media print { .btn.help-open, .help-guide { display: none !important; } }
+
+/* ---- Welcome (R81; js/views/welcome.js): the first launch, over Tonight ---- */
+
+/* The dock and banners go: Get started and the back gesture are the ways out. */
+body[data-screen="welcome"] .dock,
+body[data-screen="welcome"] .update-banner { display: none; }
+.welcome-lead { margin: 0; font-size: 1.0625rem; line-height: 1.45; }
+.welcome-view .btn.welcome-start { width: 100%; }
+.welcome-guide { margin: 0; font-size: 0.9375rem; }
 
 /* ==== Lists and History (Design B, wave 2b) ====
    js/views/setlists.js and js/views/venues.js, after the prototype's Lists

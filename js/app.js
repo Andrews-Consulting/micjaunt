@@ -6,7 +6,10 @@ import { renderSetlists } from './views/setlists.js';
 import { renderHistory } from './views/venues.js';
 import { renderSettings } from './views/settings.js';
 import { renderHelp } from './views/help.js';
-import { rootScreen, openScreen, setViewSwitcher, onDraw, viewInHistory } from './ui.js';
+import { renderWelcome, welcomeDue } from './views/welcome.js';
+import {
+  rootScreen, openScreen, setViewSwitcher, onDraw, viewInHistory, onDetailScreen,
+} from './ui.js';
 import * as dock from './dock.js';
 import { initTheme } from './theme.js';
 import { checkBackupReminder, checkSafariMove, checkBrowserInstall } from './reminder.js';
@@ -78,6 +81,19 @@ dock.scope(scopes[reloaded] ? reloaded : 'tonight');
 // in another browser with storage not persistent, a softer one to install it.
 // Their How opens the install steps in Help.
 const showInstallHelp = () => openHelpAt('help-install');
+
+// R81: at a first launch (Get started never tapped, no songs yet) the
+// welcome screen opens on top of Songs, where its steps lead first, so Get
+// started and the back gesture land there. Checked after Tonight is drawn,
+// so startup never waits on the database; by the time the answer comes the
+// singer may have opened something already, and then it stays out of the
+// way. Its Show me how opens Help at the Install card, like the banners' How.
+welcomeDue().then((due) => {
+  if (!due || onDetailScreen()) return;
+  dock.scope('songs');
+  openScreen(() => renderWelcome({ onInstallHelp: showInstallHelp }));
+});
+
 checkBrowserInstall(showInstallHelp);
 // R25: a reminder above the dock when the last backup is over 30 days old,
 // unless the Safari banner is up, which already says to back up.

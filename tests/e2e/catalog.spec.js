@@ -315,7 +315,7 @@ test.describe('KaraFun catalog', () => {
     // the catalog, which opens the Songs scope on KaraFun with the same text.
     await showSource(page, 'My songs');
     await openScope(page, 'Tonight');
-    await page.getByRole('searchbox', { name: 'Add a song to tonight\'s set' }).fill('jol');
+    await page.getByRole('searchbox', { name: 'Search your songs for tonight' }).fill('jol');
     await page.getByRole('button', { name: 'Search the KaraFun catalog for “jol”' }).click();
     await expect(source(page, 'KaraFun')).toHaveAttribute('aria-checked', 'true');
     await expect(search(page)).toHaveValue('jol');

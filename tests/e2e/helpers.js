@@ -14,15 +14,31 @@ export const mockedMusicBrainz = new WeakSet();
 //
 // Storage reads as persistent unless `persisted: false`: a browser tab with
 // songs and storage not persistent shows the install banner (R65), which
-// only its own tests want. A test context is never an installed app.
+// only its own tests want. A test context is never an installed app, and
+// it is a returning singer: the welcome screen (R81) is marked seen first.
 export async function openApp(page, { persisted = true } = {}) {
-  await page.route('https://musicbrainz.org/**', (route) =>
-    (mockedMusicBrainz.has(page) ? route.fallback() : route.abort('internetdisconnected')));
-  await fakePersisted(page, persisted);
-  await page.goto('./');
+  await launchApp(page, { persisted });
   await expectTab(page, 'Tonight');
   await openScope(page, 'Songs');
   await expect(page.getByText(/of \d+ songs/)).toBeVisible();
+}
+
+// Loads the app and stops on Tonight. With `welcome: true` it loads the way
+// a phone does the first time, Get started never tapped, so with no songs
+// the welcome screen (R81) opens over Tonight; otherwise it is marked seen
+// from the next page load on, like a phone that has been through it.
+export async function launchApp(page, { persisted = true, welcome = false } = {}) {
+  await page.route('https://musicbrainz.org/**', (route) =>
+    (mockedMusicBrainz.has(page) ? route.fallback() : route.abort('internetdisconnected')));
+  await fakePersisted(page, persisted);
+  if (!welcome) {
+    await page.addInitScript(() => {
+      try {
+        localStorage.setItem('welcomeSeenAt', '2026-01-01T00:00:00.000Z');
+      } catch { /* storage blocked: the test then meets the welcome */ }
+    });
+  }
+  await page.goto('./');
 }
 
 // From the next page load on, navigator.storage.persisted() resolves with

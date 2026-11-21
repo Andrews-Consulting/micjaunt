@@ -26,7 +26,7 @@ Then open <http://localhost:8000>. The VS Code "Live Server" extension works too
 | `css/app.css` | Styles; the Design B palette is CSS variables at the top |
 | `js/app.js` | Scope routing and startup only |
 | `js/dock.js` | The dock at the bottom: selects a scope, hands the search field, filter button and slot to the scope showing |
-| `js/views/` | One module per scope or screen: `tonight.js` (home), `find.js` (Songs, with the Filters sheet), `song.js` (the song page and its edit form), `songs.js` (what those share: tonight's set at a venue, delete, the Add a song sheet), `setlists.js` (Lists), `venues.js` (History), `settings.js` (behind the gear), `help.js` (the short Help screen at the top of Settings, R76), `kj.js` (the KJ view) |
+| `js/views/` | One module per scope or screen: `tonight.js` (home), `find.js` (Songs, with the Filters sheet), `song.js` (the song page and its edit form), `songs.js` (what those share: tonight's set at a venue, delete, the Add a song sheet), `setlists.js` (Lists), `venues.js` (History), `settings.js` (behind the gear), `help.js` (the short Help screen at the top of Settings, R76), `welcome.js` (the first launch's welcome over Songs, R81), `kj.js` (the KJ view) |
 | `help/` | The full guide for the singer at <https://micjaunt.app/help/>, linked from the Help screen: `index.html`, `help.css` and iPhone screenshots in `img/` (downscaled from `npm run screenshots`). Not in the offline cache |
 | `js/ui.js` | The `el()` DOM helper, icons, confirmations, and the screen stack behind the back gesture |
 | `js/lib/` | Pure logic (search, song records, later CSV and backup formats): no DOM, no IndexedDB, unit-tested |
