@@ -182,9 +182,9 @@ test.describe('UX', () => {
     await page.getByRole('button', { name: 'Add Dancing Queen to the set' }).click();
     await openScope(page, 'Tonight');
     await swipeOpen(page, page.getByRole('list', { name: 'The rest of tonight\'s set' }).locator('li[data-song-id]').filter({ hasText: 'Africa' }));
-    await page.getByRole('searchbox', { name: 'Add a song to tonight\'s set' }).fill('a');
+    await page.getByRole('searchbox', { name: 'Search your songs for tonight' }).fill('a');
     await expectTapTargets(page, 'Tonight');
-    await page.getByRole('searchbox', { name: 'Add a song to tonight\'s set' }).fill('');
+    await page.getByRole('searchbox', { name: 'Search your songs for tonight' }).fill('');
     await page.getByRole('button', { name: /^Sang it/ }).click();
     await expect(page.getByRole('region', { name: 'For the KJ' })).toBeVisible();
     await expectTapTargets(page, 'KJ view');
@@ -298,9 +298,9 @@ test.describe('Tabs', () => {
       .toBeLessThanOrEqual(dock.y + 1);
     await expect(scopeBar(page).getByRole('button')).toHaveText(['Tonight', 'Songs', 'Lists', 'History', '']);
     await expect(scopeBar(page).getByRole('button').last()).toHaveAccessibleName('Settings');
-    await expect(page.getByRole('searchbox', { name: 'Add a song to tonight\'s set' })).toBeHidden();
+    await expect(page.getByRole('searchbox', { name: 'Search your songs for tonight' })).toBeHidden();
     await openScope(page, 'Tonight');
-    const field = await page.getByRole('searchbox', { name: 'Add a song to tonight\'s set' }).boundingBox();
+    const field = await page.getByRole('searchbox', { name: 'Search your songs for tonight' }).boundingBox();
     expect(field.y).toBeGreaterThan((await page.locator('#dock').boundingBox()).y);
     expect(field.y + field.height).toBeLessThanOrEqual((await scopeBar(page).boundingBox()).y);
     await openScope(page, 'History');

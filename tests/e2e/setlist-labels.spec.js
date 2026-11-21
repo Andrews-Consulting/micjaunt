@@ -22,7 +22,7 @@ const AFRICA = { title: 'Africa', artist: 'Toto', genre: 'Rock', year: 1982 };
 const SONGS = [VALERIE, QUEEN, BRIGHTSIDE, AFRICA];
 
 const search = (page) => page.getByRole('searchbox', { name: 'Search songs' });
-const field = (page) => page.getByRole('searchbox', { name: 'Add a song to tonight\'s set' });
+const field = (page) => page.getByRole('searchbox', { name: 'Search your songs for tonight' });
 const setSelect = (page) => page.getByLabel('Set', { exact: true });
 const shownSet = (page) => setSelect(page).locator('option:checked');
 const upNext = (page) => page.locator('.up-next');

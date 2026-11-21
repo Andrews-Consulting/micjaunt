@@ -482,9 +482,14 @@ export async function renderTonight({ message = '', focusId = null } = {}) {
 
   const afterHead = el('p', { class: 'cap after-head' });
   const afterList = el('ol', { class: 'list after-list', 'aria-label': 'The rest of tonight\'s set' });
-  const empty = el('div', { class: 'tonight-empty' },
-    el('p', { text: 'Nothing in tonight\'s set yet. Type a song below, or open Lists.' }),
-    el('button', { type: 'button', class: 'btn', text: 'Open Lists', onclick: () => dock.scope('lists') }));
+  // With no songs at all there is nothing to type for: point at Songs instead.
+  const empty = songs.length
+    ? el('div', { class: 'tonight-empty' },
+      el('p', { text: 'Nothing in tonight\'s set yet. Type a song below, or open Lists.' }),
+      el('button', { type: 'button', class: 'btn', text: 'Open Lists', onclick: () => dock.scope('lists') }))
+    : el('div', { class: 'tonight-empty' },
+      el('p', { text: 'No songs yet. Add some on Songs, then type one below to build tonight\'s set.' }),
+      el('button', { type: 'button', class: 'btn', text: 'Open Songs', onclick: () => dock.scope('songs') }));
   const plainEmpty = el('p', { class: 'muted plain-empty', text: 'No songs in this list yet.', hidden: '' });
 
   // Above another list (R75): which list shows, which is tonight's set, and
@@ -764,7 +769,7 @@ export async function renderTonight({ message = '', focusId = null } = {}) {
     const addTo = `Add to ${workingName() ?? 'tonight'}`;
     const head = all.length
       ? `${addTo} · ${plural(all.length, 'match', 'matches')}${all.length > MATCH_LIMIT ? ` · top ${MATCH_LIMIT}` : ''}`
-      : 'No songs match';
+      : songs.length ? 'No songs match' : 'No songs to search yet';
     return el('section', { class: 'matches', 'aria-label': addTo },
       el('p', { class: 'cap', text: head }),
       all.length ? el('ul', { class: 'match-list' }, ...all.slice(0, MATCH_LIMIT).map((song) => matchRow(song, text))) : null,
@@ -807,11 +812,13 @@ export async function renderTonight({ message = '', focusId = null } = {}) {
   let fieldLabel = null;
   function syncField() {
     const name = workingName();
-    const label = name ? `Add a song to ${name}` : 'Add a song to tonight\'s set';
+    // "Search", like every other scope's field: "Add a song to tonight" read
+    // as adding a new song (2026-11-21). Adding is what the matches' + does.
+    const label = `Search your songs for ${name ?? 'tonight'}`;
     if (fieldLabel === label && dock.searchValue() === query) return;
     fieldLabel = label;
     dock.search({
-      placeholder: name ? label : 'Add a song to tonight',
+      placeholder: label,
       label,
       value: query,
       onInput: (value) => {

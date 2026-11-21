@@ -199,6 +199,8 @@ test.describe('Getting onto the Home Screen (R65)', () => {
     await expect(moveBanner(page)).toHaveCount(0);
     const card = page.locator('.starting-fresh');
     await expect(card).toContainText('Starting fresh?');
+    await expect(card.getByRole('button', { name: 'How' })).toHaveCount(0); // installed: nothing to add to the Home Screen
+    await expect(card).toContainText('Songs missing after adding the app to the Home Screen?');
     await card.getByRole('button', { name: 'Restore a backup' }).click();
     await expectTab(page, 'Settings');
     await expect(page.getByText('Restore from backup', { exact: true })).toBeVisible();

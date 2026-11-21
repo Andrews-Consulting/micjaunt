@@ -8,9 +8,10 @@
 // modules that open them (app.js, tonight.js, setlists.js) import from one place.
 import { db, request } from '../db.js';
 import {
-  el, viewEl, closeScreen, screenTicket, screenStillShowing,
+  el, viewEl, openScreen, closeScreen, screenTicket, screenStillShowing,
 } from '../ui.js';
 import * as dock from '../dock.js';
+import { renderHelp } from './help.js';
 import {
   makeSong, validateSong, planSongDelete, songKey, SONG_STATUSES, STATUS_LABELS, NO_STATUS_LABEL,
 } from '../lib/song.js';
@@ -31,6 +32,13 @@ export const VENUE_KEY = 'findVenueId';
 export function goToBackup() {
   dock.scope('settings');
   setTimeout(() => document.getElementById('backup-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
+}
+
+// Opens Help at its Install card (R76), stacked on Settings the way the
+// banners' How does (R65), so Back returns to Settings and the gear stays marked.
+export function goToInstallHelp() {
+  dock.scope('settings');
+  openScreen(() => renderHelp({ scrollTo: 'help-install' }));
 }
 
 // ---------- Sets at a venue (R47, R56), each change in one transaction ----------

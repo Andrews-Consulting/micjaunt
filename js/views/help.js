@@ -13,7 +13,12 @@ const CHEVRON_LEFT = ['M15 6l-6 6 6 6'];
 
 // The words, kept short: one idea per line. A line is plain text, or
 // [term, rest] for a line that starts with the name of a thing in bold.
-const CONCEPTS = [
+// WHAT_FOR, CONCEPTS and FIRST_STEPS are the welcome screen's too (R81,
+// js/views/welcome.js), so the first launch and Help say the same thing.
+export const WHAT_FOR = 'You sing at different venues. Mic Jaunt remembers what you sang where and when, '
+  + 'so you don\'t repeat yourself and can build a set for each night.';
+
+export const CONCEPTS = [
   ['Songs', 'everything you can sing or want to try.'],
   ['Lists', 'songs grouped any way you like: for a venue, a theme, a night.'],
   ['Tonight\'s set', 'the one list you sing from tonight at this venue.'],
@@ -70,13 +75,14 @@ const TONIGHT_STEPS = [
 
 // With no venue yet the venue menu offers "Add a venue…"; it reads
 // "Manage venues…" once there is one.
-const FIRST_STEPS = [
+export const FIRST_STEPS = [
   ['Settings', 'load the KaraFun catalog if you use KaraFun venues (download the CSV in Safari first). Optional.'],
   ['Songs', 'add a few songs. Add a song, the KaraFun switch, or Import songs from CSV in Settings.'],
   ['Tonight', 'open the venue menu, Add a venue… (later Manage venues…), add your venue, then pick it.'],
-  ['Tonight', 'type a title in the field and tap + to put it on tonight\'s set. '
+  ['Tonight', 'type a song title in the field and tap + to put it on tonight\'s list to sing. '
     + 'New list for tonight… in the Set menu starts a fresh dated list.'],
-  'After a song, tap Sang it. Before you leave: Settings, Backup.',
+  ['Tonight','After a song, tap Sang it.  The next song appears for the KJ.'],
+  ['Settings','Don\'t lose your songs: Settings, Backup.  on a regular basis'],
 ];
 
 const TIPS = [
@@ -107,10 +113,7 @@ export function renderHelp({ scrollTo = null } = {}) {
       icon(CHEVRON_LEFT, { size: 20 }), 'Settings'),
     el('h2', { text: 'Help' }),
     section('help-for', 'What it\'s for',
-      el('p', {
-        text: 'You sing at different venues. Mic Jaunt remembers what you sang where and when, '
-          + 'so you don\'t repeat yourself and can build a set for each night.',
-      }),
+      el('p', { text: WHAT_FOR }),
       el('ul', {}, ...CONCEPTS.map(line))),
     section('help-install', 'Put it on your Home Screen',
       ...INSTALL_WHY.map((text) => el('p', { text })),

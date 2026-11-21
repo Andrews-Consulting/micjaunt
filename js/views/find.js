@@ -41,8 +41,9 @@ import {
 import { addSongId, removeSongId, setlistSongs } from '../lib/setlist.js';
 import { currentSetlistKey, OVERALL_LIST_NAME } from '../lib/night.js';
 import {
-  VENUE_KEY, openCurrentSet, startList, goToBackup, renderAddSong, workingList,
+  VENUE_KEY, openCurrentSet, startList, goToBackup, goToInstallHelp, renderAddSong, workingList,
 } from './songs.js';
+import { runningInstalled } from '../reminder.js';
 import { openSongScreen } from './song.js';
 import { hereShort, shortDate } from './tonight.js';
 
@@ -622,18 +623,20 @@ export async function renderSongs({
         items.push(noMatch);
       } else if (songs.length === 0) {
         items.push(el('li', { class: 'muted', text: 'No songs yet. Add your first one below.' }));
-        // A fresh install: the data from Safari does not come over by itself (R65).
+        // A fresh start (R65): in a browser tab, install first; and in the
+        // installed app, the data from Safari does not come over by itself.
         items.push(el('li', { class: 'card stack starting-fresh' },
           el('strong', { text: 'Starting fresh?' }),
-          el('p', {
-            class: 'muted',
-            text: 'If you used Mic Jaunt in Safari before adding it to the Home Screen, your songs stayed in Safari. '
-              + 'Back up there (Settings → Share backup → Save to Files), then restore here.',
-          }),
-          el('button', {
-            type: 'button', class: 'btn', text: 'Restore a backup',
-            onclick: () => goToBackup(),
-          })));
+          runningInstalled() ? null : el('div', { class: 'fresh-case' },
+            el('p', { class: 'muted', text: 'Add the app to your Home Screen first, so your songs are kept for good.' }),
+            el('button', { type: 'button', class: 'btn', text: 'How', onclick: () => goToInstallHelp() })),
+          el('div', { class: 'fresh-case' },
+            el('p', {
+              class: 'muted',
+              text: 'Songs missing after adding the app to the Home Screen? They stayed in Safari: '
+                + 'back up there (Settings → Share backup → Save to Files), then restore here.',
+            }),
+            el('button', { type: 'button', class: 'btn', text: 'Restore a backup', onclick: () => goToBackup() }))));
       } else {
         items.push(el('li', { class: 'muted', text: 'No songs match the search and filters.' }));
       }

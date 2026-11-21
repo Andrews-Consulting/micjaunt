@@ -22,7 +22,7 @@ const AFRICA = { title: 'Africa', artist: 'Toto', genre: 'Rock', year: 1982 };
 const SONGS = [VALERIE, QUEEN, BRIGHTSIDE, AFRICA];
 
 const search = (page) => page.getByRole('searchbox', { name: 'Search songs' });
-const field = (page) => page.getByRole('searchbox', { name: 'Add a song to tonight\'s set' });
+const field = (page) => page.getByRole('searchbox', { name: 'Search your songs for tonight' });
 const setSelect = (page) => page.getByLabel('Set', { exact: true });
 const upNext = (page) => page.locator('.up-next');
 const afterList = (page) => page.getByRole('list', { name: 'The rest of tonight\'s set' });
@@ -837,8 +837,8 @@ test.describe('Night out', () => {
     await expect(upNext(page)).toHaveCount(0);
     await expect(showingLine(page)).toContainText('Showing Saturday · tonight\'s set is Friday');
     await expect(plainTitles(page, 'Saturday')).toHaveText(['Dancing Queen', 'Africa']);
-    const working = page.getByRole('searchbox', { name: 'Add a song to Saturday' });
-    await expect(working).toHaveAttribute('placeholder', 'Add a song to Saturday');
+    const working = page.getByRole('searchbox', { name: 'Search your songs for Saturday' });
+    await expect(working).toHaveAttribute('placeholder', 'Search your songs for Saturday');
     await working.fill('bright');
     await expect(page.getByRole('region', { name: 'Add to Saturday' }).locator('.cap')).toHaveText('Add to Saturday · 1 match');
     await button(page, 'Add Mr. Brightside to Saturday').click();
@@ -859,10 +859,43 @@ test.describe('Night out', () => {
     // Showing tonight's set again, the field and Songs' + work on it.
     await setSelect(page).selectOption({ label: 'Friday' });
     await expectSet(page, ['Valerie', 'Africa']);
-    await expect(field(page)).toHaveAttribute('placeholder', 'Add a song to tonight');
+    await expect(field(page)).toHaveAttribute('placeholder', 'Search your songs for tonight');
     await openScope(page, 'Songs');
     await expect(findContext(page)).toHaveText('Viking · Friday · 2 songs');
     expect(await metaValue(page, `currentSetlist:${viking}`)).toBe(friday.id);
+  });
+
+  test('R77: with no songs at all, Tonight points at Songs and the field says there is nothing to search yet', async ({ page }) => {
+    await openApp(page); // Songs, with none
+    await openScope(page, 'Tonight');
+
+    // The empty set sends a new singer to Songs rather than to the field.
+    const empty = page.locator('.tonight-empty');
+    await expect(empty).toContainText('No songs yet. Add some on Songs, then type one below to build tonight\'s set.');
+    await expect(empty.getByRole('button', { name: 'Open Lists' })).toHaveCount(0);
+
+    // Typing anyway: told so, with the way to add it as a new song still there.
+    await expect(field(page)).toHaveAttribute('placeholder', 'Search your songs for tonight');
+    await field(page).fill('valerie');
+    await expect(matches(page).locator('.cap')).toHaveText('No songs to search yet');
+    await expect(matches(page).getByRole('button', { name: 'Add “valerie” as a new song' })).toBeVisible();
+    await button(page, 'Clear search').click();
+
+    await empty.getByRole('button', { name: 'Open Songs' }).click();
+    await expectTab(page, 'Songs');
+    await expect(page.getByText('Add a song', { exact: true })).toBeVisible();
+
+    // Starting fresh in a browser tab (R65): install first, with How to Help's Install card; or restore.
+    const card = page.locator('.starting-fresh');
+    await expect(card).toContainText('Add the app to your Home Screen first');
+    await expect(card).toContainText('Songs missing after adding the app to the Home Screen?');
+    await expect(card.getByRole('button', { name: 'Restore a backup' })).toBeVisible();
+    await card.getByRole('button', { name: 'How' }).click();
+    await expect(page.getByRole('heading', { level: 2, name: 'Help' })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'Put it on your Home Screen' })).toBeInViewport();
+    await expectTab(page, 'Settings');
+    await page.getByRole('button', { name: 'Back to Settings' }).click();
+    await expect(page.getByText('Appearance', { exact: true })).toBeVisible();
   });
 
   // "R47: Overall has no set and List and Sung are disabled" was here until R56

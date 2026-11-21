@@ -100,7 +100,7 @@ const heading = (page, name, level) => page.getByRole('heading', { name, level, 
 // No title bar (R58): the selected scope (or the gear, for Settings) says which screen is showing.
 const selected = (page, name) => scopes(page).getByRole('button', { name, exact: true })
   .and(page.locator('[aria-current="page"]')).waitFor();
-const tonightField = (page) => page.getByRole('searchbox', { name: 'Add a song to tonight\'s set' });
+const tonightField = (page) => page.getByRole('searchbox', { name: 'Search your songs for tonight' });
 
 // Each entry: a name and the steps that get the screen on the page.
 const SCREENS = [
@@ -205,7 +205,13 @@ async function shoot(deviceKey, theme) {
   const browser = await type.launch();
   const context = await browser.newContext({ ...profile, baseURL: BASE, colorScheme: 'dark' });
   const page = await context.newPage();
-  await page.addInitScript((t) => { try { localStorage.setItem('theme', t); } catch { /* ignore */ } }, theme);
+  // The theme, and the welcome screen (R81) already seen: these are a returning singer's screens.
+  await page.addInitScript((t) => {
+    try {
+      localStorage.setItem('theme', t);
+      localStorage.setItem('welcomeSeenAt', '2026-01-01T00:00:00.000Z');
+    } catch { /* ignore */ }
+  }, theme);
 
   const dir = path.join(OUT, deviceKey, theme);
   await mkdir(dir, { recursive: true });
