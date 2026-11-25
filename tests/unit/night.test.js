@@ -29,14 +29,14 @@ describe('R47 R49 R56 meta keys', () => {
 
 describe('R47 tonightListName', () => {
   it('is the local day, date and month', () => {
-    expect(tonightListName(new Date(2025, 10, 14, 21, 30))).toBe('Fri 14 Nov');
-    expect(tonightListName(new Date(2026, 10, 12, 0, 0))).toBe('Thu 12 Nov');
-    expect(tonightListName(new Date(2027, 0, 3, 23, 59))).toBe('Sun 3 Jan');
+    expect(tonightListName(new Date(2025, 10, 14, 21, 30))).toBe('N Fri 14 Nov');
+    expect(tonightListName(new Date(2026, 10, 12, 0, 0))).toBe('N Thu 12 Nov');
+    expect(tonightListName(new Date(2027, 0, 3, 23, 59))).toBe('N Sun 3 Jan');
   });
 
   it('uses the local day late in the evening, not the UTC one', () => {
     const late = new Date(2026, 4, 31, 23, 45);
-    expect(tonightListName(late)).toBe('Sun 31 May');
+    expect(tonightListName(late)).toBe('N Sun 31 May');
   });
 });
 
