@@ -264,8 +264,8 @@ test.describe('search engines', () => {
     expect(image.origin).toBe('https://micjaunt.app');
     expect((await request.get(new URL(image.pathname, page.url()).toString())).status()).toBe(200);
     const structured = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent());
-    expect(structured['@type']).toBe('WebApplication');
-    expect(structured.url).toBe('https://micjaunt.app/');
+    expect(structured['@type']).toBe('SoftwareApplication');
+    expect(structured.url).toBe('https://micjaunt.app');
 
     await page.goto('./help/');
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /karaoke/i);
