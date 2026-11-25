@@ -26,7 +26,7 @@ export const OVERALL_LIST_NAME = 'My list';
 // The name of a new list for tonight: the local day, e.g. 'Fri 14 Nov'.
 // The same words whatever the phone's language, so names sort and read alike.
 export function tonightListName(now = new Date()) {
-  return `N ${DAYS[now.getDay()]} ${now.getDate()} ${MONTHS[now.getMonth()]}`;
+  return `${DAYS[now.getDay()]} ${now.getDate()} ${MONTHS[now.getMonth()]}`;
 }
 
 // `name`, or when a setlist already has that name ignoring case, the first

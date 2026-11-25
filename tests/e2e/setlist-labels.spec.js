@@ -178,10 +178,20 @@ test.describe('Setlist labels, Find songs and merge', () => {
     // Under Overall: any venue first, then every labelled list with its venue.
     await venueSelect(page).selectOption({ label: 'Overall' });
     await expect(shownSet(page)).toHaveText('All time');
-    await expect.poll(() => setGroups(page)).toEqual([
-      ['Any venue', ['All time', 'Big hits']],
-      ['For a venue', ['Anchor night · Anchor', 'Crown Sat · The Crown', `${name} · Pub`, 'Viking Fri · Viking']],
-    ]);
+    // the name starts with the day of the week, every day except wednesday falls in front of Viking.  List is alphabetized.
+    // If this is wednesday, just test in the correct order
+    if (name.substring(0,1) == 'W') {
+          await expect.poll(() => setGroups(page)).toEqual([
+            ['Any venue', ['All time', 'Big hits']],
+            ['For a venue', ['Anchor night · Anchor', 'Crown Sat · The Crown', 'Viking Fri · Viking', `${name} · Pub`]],
+          ]);
+    } 
+    else {
+          await expect.poll(() => setGroups(page)).toEqual([
+          ['Any venue', ['All time', 'Big hits']],
+          ['For a venue', ['Anchor night · Anchor', 'Crown Sat · The Crown', `${name} · Pub`, 'Viking Fri · Viking']],
+        ]);
+    }
     await expect(setSelect(page).locator('option').last()).toHaveText('New list…');
 
     // Each venue kept its own choice.
