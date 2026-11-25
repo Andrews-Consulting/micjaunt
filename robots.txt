@@ -2,16 +2,11 @@
 # are the repo's own working files, deployed with the site by GitHub Pages
 # but not meant for readers: the requirements sheets, the tests and the tools.
 User-agent: *
-Allow: /
 User-agent: OAI-SearchBot
-Allow: /
 User-agent: ChatGPT-User
-Allow: /
 User-agent: ClaudeBot
-Allow: /
 User-agent: PerplexityBot
 Allow: /
-
 Disallow: /docs/
 Disallow: /requirements/
 Disallow: /tests/
