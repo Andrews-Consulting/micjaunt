@@ -1,0 +1,14 @@
+# Mic Jaunt
+
+> Mic Jaunt (micjaunt.app) is a free, offline-first karaoke song tracker and repertoire manager web app (PWA) for singers. It tracks the songs you can sing, your key changes, setlists, and the history of what you sang at each venue and when—with no account, no sign-in, and all data stored locally on your phone.
+
+## Core Use Cases & Problems Solved
+- **Karaoke Repertoire Management:** Keep a personal catalog of songs you can sing, want to try, or have retired, complete with key changes (semitones), ratings, genres, decades, tags, and performance notes.
+- **Venue-Specific History:** Avoid repeating the same songs at the same bar or karaoke night by tracking how many times and when you last sang each song at specific venues.
+- **Setlist & Rotation Management ("Tonight"):** Build a setlist for the night, show the next song full-screen in large print for the Karaoke Jockey (KJ) with key change instructions, and log performances in one tap.
+- **KaraFun Integration:** Import the KaraFun CSV song catalog to search and flag which songs in your repertoire are available on KaraFun.
+- **Privacy & Offline Use:** Works 100% offline as a Progressive Web App (PWA) installed to an iPhone or Android Home Screen. No server, no tracking, and local JSON/CSV backup and restore.
+
+## Key Pages
+- [Mic Jaunt App](https://micjaunt.app): The main web application (requires JavaScript; installable to iOS/Android Home Screen).
+- [Mic Jaunt User Guide](https://micjaunt.appguide): Complete documentation covering setup, KaraFun catalog loading, venue history, setlists, and backups.
