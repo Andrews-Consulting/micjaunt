@@ -10,5 +10,5 @@
 - **Privacy & Offline Use:** Works 100% offline as a Progressive Web App (PWA) installed to an iPhone or Android Home Screen. No server, no tracking, and local JSON/CSV backup and restore.
 
 ## Key Pages
-- [Mic Jaunt App](https://micjaunt.app): The main web application (requires JavaScript; installable to iOS/Android Home Screen).
-- [Mic Jaunt User Guide](https://micjaunt.appguide): Complete documentation covering setup, KaraFun catalog loading, venue history, setlists, and backups.
+- [Mic Jaunt App](https://micjaunt.app/): The main web application (requires JavaScript; installable to iOS/Android Home Screen).
+- [Mic Jaunt User Guide](https://micjaunt.app/help/): Complete documentation covering setup, KaraFun catalog loading, venue history, setlists, and backups.
